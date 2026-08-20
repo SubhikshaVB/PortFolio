@@ -31,12 +31,10 @@ const dropletPaths = [
 ];
 
 const journey = [
-  ["School", "Curiosity became a habit through science, sketchbooks, and tiny experiments."],
-  ["College", "Engineering turned that curiosity into systems, interfaces, and discipline."],
-  ["Internship", "Real product work taught me to build for people, not just screens."],
-  ["Research", "I learned to ask better questions before reaching for better models."],
-  ["AI", "LLMs, automation, and data became part of my everyday toolkit."],
-  ["Present", "I am building thoughtful software with a painter's eye and an engineer's patience."]
+  ["Class X", "The Spark. Curiosity took root through science, sketchbooks, and early experiments."],
+  ["Class XII", "The Focus. Mathematics and logic turned abstract thoughts into structured problem-solving."],
+  ["B.Tech CSE", "The Foundation. Engineering discipline met a 9.81 GPA, turning code into functional systems."],
+  ["M.Tech AI & DS", "The Frontier. Architecting LLMs, RAG pipelines, and multi-agent systems to build thoughtful software."]
 ];
 
 const studioNotes = [
@@ -238,7 +236,7 @@ function App() {
   const [canErase, setCanErase] = useState(false);
   const [unlockedIndex, setUnlockedIndex] = useState(0);
   const [openNode, setOpenNode] = useState(0);
-  const [blueprintOpen, setBlueprintOpen] = useState(false);
+  const [blueprintOpen, setBlueprintOpen] = useState(0); 
 
   const heroRef = useRef(null);
   const projectsRef = useRef(null);
@@ -548,64 +546,112 @@ function App() {
         </section>
 
         <section className="projects chapter" ref={projectsRef}>
-          <div className="sectionSplash projectsWash" />
-          <motion.h2 initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-            Selected Projects
-          </motion.h2>
-          <div className="projectGrid">
-            {projects.map((project, index) => (
-              <motion.article
-                className={`projectCard card${index + 1}`}
-                key={project.id}
-                style={{ "--preview": project.color }}
-                initial={{ opacity: 0, y: 50, filter: "blur(12px)", scale: 0.98 }}
-                whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
-                transition={{ duration: 0.65, delay: index * 0.12 }}
-                viewport={{ once: true }}
-              >
-                <div className="projectPreview">
-                  <span>{project.title}</span>
-                </div>
-                <div className="projectYear">{project.year}</div>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-                <small>{project.stack}</small>
-                <div className="projectLinks">
-                  <a href={project.github}>GitHub</a>
-                  <a href={project.demo}>Demo</a>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-          <button className="inkButton sectionButton" onClick={() => paintAndGo("journey", "journey")}>
-            <span className="inkDot" />
-            <span>Continue Journey</span>
-          </button>
-        </section>
+  <div className="sectionSplash projectsWash" />
+  <motion.h2 initial={{ opacity: 0, y: 35 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+    Selected Projects
+  </motion.h2>
+  
+  <p style={{ color: 'var(--muted)', marginTop: '-10px', marginBottom: '40px' }}>
+    Swipe to explore more &rarr;
+  </p>
+  
+  {/* SLIDER CONTAINER */}
+  <div className="projectSlider" style={{ display: 'flex', overflowX: 'auto', gap: '24px', padding: '20px 0 40px 0' }}>
+    {projects.map((project, index) => (
+      <motion.article
+  className={`projectCard card${index + 1}`}
+  key={project.id}
+  style={{ 
+    "--preview": project.color,
+    flex: '0 0 340px',  /* Increased from 320px */
+    background: '#ffffff',
+    minHeight: '520px'   /* Increased from 450px */
+  }}
+        initial={{ opacity: 0, y: 50, filter: "blur(12px)", scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)", scale: 1 }}
+        transition={{ duration: 0.65, delay: index * 0.12 }}
+        viewport={{ once: true }}
+      >
+        {/* Colored Preview Box */}
+         <div className="projectPreview" style={{ background: project.color, height: '160px' }}>
+    <span style={{ color: 'white', fontSize: '1.5rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
+      {project.preview || project.title}
+    </span>
+  </div>
+  
+  {/* Content Area */}
+  <div style={{ padding: '20px' }}>
+    {/* Description - No truncation */}
+    <p style={{ 
+      minHeight: '80px',  /* Ensures consistent height */
+      lineHeight: '1.6',
+      marginBottom: '15px'
+    }}>
+      {project.description}
+    </p>
+    
+    <small style={{ display: 'block', fontSize: '0.8rem', color: '#888', letterSpacing: '1px' }}>
+      {project.stack}
+    </small>
+    
+    <div className="projectLinks" style={{ marginTop: '20px', display: 'flex', gap: '15px' }}>
+      <a href={project.github} style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '10px 18px', textDecoration: 'none' }}>
+        GitHub
+      </a>
+      
+      {project.demo && project.demo !== "#" && (
+        <a href={project.demo} style={{ border: '1px solid var(--line)', borderRadius: '999px', padding: '10px 18px', textDecoration: 'none' }}>
+          Live Demo
+        </a>
+      )}
+    </div>
+  </div>
+</motion.article>
+    ))}
+  </div>
+  
+  <button className="inkButton sectionButton" onClick={() => paintAndGo("journey", "journey")}>
+    <span className="inkDot" />
+    <span>Continue Journey</span>
+  </button>
+</section>
 
         <section className="journey chapter" ref={journeyRef}>
-          <div className="sectionSplash journeyWash" />
-          <h2>Journey</h2>
-          <div className="timeline">
-            {journey.map(([title, text], index) => (
-              <button
-                className={`timelineItem ${openNode === index ? "open" : ""}`}
-                key={title}
-                onClick={() => setOpenNode(index)}
-              >
-                <span className="dot" />
-                <strong>{title}</strong>
-                <motion.p animate={{ height: openNode === index ? "auto" : 0, opacity: openNode === index ? 1 : 0 }}>
-                  {text}
-                </motion.p>
-              </button>
-            ))}
-          </div>
-          <button className="inkButton sectionButton" onClick={() => paintAndGo("studio", "studio")}>
-            <span className="inkDot" />
-            <span>Reveal Studio</span>
-          </button>
-        </section>
+  <div className="sectionSplash journeyWash" />
+  <h2>Journey</h2>
+  <div className="timeline">
+    {journey.map(([title, text], index) => (
+      <div
+        className="timelineItem"
+        key={title}
+        onMouseEnter={() => setOpenNode(index)}
+        style={{ cursor: 'default', paddingBottom: '10px' }}
+      >
+        <span className="dot" />
+        <strong style={{ 
+          color: openNode === index ? 'var(--ink)' : 'var(--muted)',
+          transition: 'color 0.3s ease'
+        }}>
+          {title}
+        </strong>
+        <motion.p 
+          animate={{ 
+            height: openNode === index ? "auto" : 0, 
+            opacity: openNode === index ? 1 : 0 
+          }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          style={{ overflow: 'hidden', color: 'var(--muted)', marginTop: '5px' }}
+        >
+          {text}
+        </motion.p>
+      </div>
+    ))}
+  </div>
+  <button className="inkButton sectionButton" onClick={() => paintAndGo("studio", "studio")}>
+    <span className="inkDot" />
+    <span>Reveal Studio</span>
+  </button>
+</section>
 
         <section className="studio chapter" ref={studioRef}>
           <div className="sectionSplash studioWash" />
@@ -633,34 +679,74 @@ function App() {
           </button>
         </section>
 
-        <section className="featured chapter" ref={featuredRef}>
+                <section className="featured chapter" ref={featuredRef}>
           <div className="sectionSplash featuredWash" />
-          <motion.div className={`featuredPaper ${blueprintOpen ? "open" : ""}`} layout>
-            <span className="featuredLabel">FEATURED PROJECT</span>
-            <h2>AI Interview Assistant</h2>
-            <p>An AI preparation system that turns resumes into targeted interview practice and actionable feedback.</p>
-            <button onClick={() => setBlueprintOpen((open) => !open)}>
-              {blueprintOpen ? "Close Blueprint" : "Open Blueprint"}
+          <h2 style={{ textAlign: 'center', marginBottom: '40px' }}>Featured Deep Dives</h2>
+
+          {/* PROJECT 1: RAG-EVAL */}
+          <motion.div className="featuredPaper" layout style={{ marginBottom: '20px' }}>
+            <span className="featuredLabel">FEATURED PROJECT 01</span>
+            <h2>RAG-Eval Studio</h2>
+            <p>An advanced document Q&A engine featuring custom hybrid retrieval and an automated LLM evaluation framework.</p>
+            <button onClick={() => setBlueprintOpen(blueprintOpen === 1 ? 0 : 1)}>
+              {blueprintOpen === 1 ? "Close Blueprint" : "Open Blueprint"}
             </button>
-            {blueprintOpen && (
+            {blueprintOpen === 1 && (
               <motion.div className="blueprint" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
-                {["Problem", "Architecture", "Tech Stack", "Challenges", "Lessons"].map((label) => (
-                  <div key={label}>
-                    <h3>{label}</h3>
-                    <p>
-                      {label === "Architecture"
-                        ? "React interface, API layer, model prompts, feedback storage, and recruiter-ready reporting."
-                        : "Designed for useful practice loops, clear feedback, and fast iteration."}
-                    </p>
-                  </div>
-                ))}
+                <div><h3>Problem</h3><p>Standard RAG pipelines hallucinate and fail on messy PDF extractions.</p></div>
+                <div><h3>Architecture</h3><p>Hybrid Retriever (BM25 + Vectors), LCEL Chain, Streamlit UI, Regex cleaning.</p></div>
+                <div><h3>Tech Stack</h3><p>Python, LangChain, ChromaDB, HuggingFace, Streamlit.</p></div>
+                <div><h3>Key Lesson</h3><p>LLM-as-a-Judge is flaky; deterministic ground-truth matching is essential for reliable evaluation.</p></div>
                 <div className="blueprintButtons">
-                  <a href="#">GitHub</a>
-                  <a href="#">Demo</a>
+                  <a href="https://github.com/SubhikshaVB/rag-eval-studio">GitHub</a>
+                  <a href="https://rag-eval-studio.streamlit.app/">Live Demo</a>
                 </div>
               </motion.div>
             )}
           </motion.div>
+
+          {/* PROJECT 2: PULSE */}
+          <motion.div className="featuredPaper" layout style={{ marginBottom: '20px' }}>
+            <span className="featuredLabel">FEATURED PROJECT 02</span>
+            <h2>Pulse: GitHub Intelligence</h2>
+            <p>A developer profiling engine that computes algorithmic metrics from GitHub API data.</p>
+            <button onClick={() => setBlueprintOpen(blueprintOpen === 2 ? 0 : 2)}>
+              {blueprintOpen === 2 ? "Close Blueprint" : "Open Blueprint"}
+            </button>
+            {blueprintOpen === 2 && (
+              <motion.div className="blueprint" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
+                <div><h3>Problem</h3><p>GitHub profiles are hard to quantify algorithmically for recruiters.</p></div>
+                <div><h3>Architecture</h3><p>FastAPI backend, GitHub API ingestion, 30-min TTL caching, React frontend.</p></div>
+                <div><h3>Tech Stack</h3><p>Python, FastAPI, React.js, GitHub API.</p></div>
+                <div><h3>Key Lesson</h3><p>API rate limits require robust fault-tolerance and synthetic offline fallback modes.</p></div>
+                <div className="blueprintButtons">
+                  <a href="https://github.com/SubhikshaVB/Pulse">GitHub</a>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* PROJECT 3: AGENTSPHERE */}
+          <motion.div className="featuredPaper" layout style={{ marginBottom: '20px' }}>
+            <span className="featuredLabel">FEATURED PROJECT 03</span>
+            <h2>AgentSphere</h2>
+            <p>A multi-agent AI orchestration system where specialized agents collaborate to automate analytical workflows.</p>
+            <button onClick={() => setBlueprintOpen(blueprintOpen === 3 ? 0 : 3)}>
+              {blueprintOpen === 3 ? "Close Blueprint" : "Open Blueprint"}
+            </button>
+            {blueprintOpen === 3 && (
+              <motion.div className="blueprint" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }}>
+                <div><h3>Problem</h3><p>Single LLMs struggle with complex, multi-step analytical tasks.</p></div>
+                <div><h3>Architecture</h3><p>Multi-agent orchestration (Researcher, Planner, Critic), FastAPI, React.</p></div>
+                <div><h3>Tech Stack</h3><p>Python, FastAPI, React.js, OpenRouter API, LLMs.</p></div>
+                <div><h3>Key Lesson</h3><p>Agent orchestration requires strict context window management to prevent token overflow.</p></div>
+                <div className="blueprintButtons">
+                  <a href="https://github.com/SubhikshaVB/AgentSphere">GitHub</a>
+                </div>
+              </motion.div>
+            )}
+          </motion.div>
+
           <button className="inkButton sectionButton" onClick={() => paintAndGo("contact", "contact")}>
             <span className="inkDot" />
             <span>Final Splash</span>
@@ -675,10 +761,10 @@ function App() {
             </svg>
             <p>Subhiksha</p>
             <div className="contactLinks">
-              <a href="mailto:subhiksha@email.com">Email</a>
-              <a href="https://github.com/yourusername">GitHub</a>
-              <a href="https://linkedin.com/in/yourusername">LinkedIn</a>
-              <a href="#">Resume</a>
+              <a href="mailto:vbsubhiksha@gmail.com">Email</a>
+              <a href="https://github.com/SubhikshaVB">GitHub</a>
+              <a href="https://www.linkedin.com/in/subhiksha-baranidharan/">LinkedIn</a>
+              {/* <a href="#">Resume</a> */}
             </div>
           </motion.div>
         </section>

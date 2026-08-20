@@ -834,3 +834,143 @@ a {
     mix-blend-mode: normal;
   }
 }
+
+/* ==========================================
+   FIX: PREVENT MUDDY INK & BLEED-THROUGH
+   ========================================== */
+
+/* 1. Force project cards to be 100% solid white */
+.projectCard {
+  background: #ffffff !important; 
+  border: 1px solid rgba(17, 17, 17, 0.08) !important;
+}
+
+/* 2. Force the ink splash to be a light, airy watercolor (not dark mud) */
+.inkSplash,
+.sectionSplash,
+.paintOverlay {
+  opacity: 0.15 !important; /* Lowered to make it a soft, elegant wash */
+  mix-blend-mode: normal !important; /* CRITICAL: Stops colors from multiplying into brown */
+  filter: saturate(1.2) brightness(1.15) !important; /* Makes colors vibrant and clean */
+}
+
+/* 3. Force the paint blobs to use bright, modern, non-muddy colors */
+.paint.yellow { background-color: #FDE047 !important; }
+.paint.orange { background-color: #FB923C !important; }
+.paint.pink { background-color: #F472B6 !important; }
+.paint.purple { background-color: #C084FC !important; }
+.paint.blue { background-color: #60A5FA !important; }
+
+/* 4. Clean up the drops so they look like clean water, not dirt */
+.drop {
+  background: rgba(255, 255, 255, 0.9) !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ==========================================
+   FIX: PREVENT CONTENT FROM SLIDING UNDER NAVBAR
+   ========================================== */
+
+/* Add scroll margin to all major sections */
+.projects,
+.journey,
+.studio,
+.featured,
+.contact,
+.chapter {
+  scroll-margin-top: 120px; /* Adjusts for the fixed navbar height */
+}
+
+/* Add extra top padding to sections that need it */
+.projects {
+  padding-top: 180px !important; /* More space below navbar */
+}
+
+.journey {
+  padding-top: 120px;
+}
+
+.studio {
+  padding-top: 120px;
+}
+
+/* Ensure hero section stays full height */
+.hero {
+  min-height: 100vh;
+  padding-top: 84px;
+}
+
+/* ==========================================
+   FIX: Make content scroll UNDER navbar (not visible under it)
+   ========================================== */
+
+/* 1. Ensure navbar stays on top of everything */
+.navbar {
+  z-index: 9999 !important;
+  background: rgba(248, 246, 242, 0.95) !important; /* Slight background to hide content underneath */
+  backdrop-filter: blur(8px) !important; /* Blurs content scrolling underneath */
+}
+
+/* 2. Add wrapper/padding to push ALL content below navbar */
+body {
+  padding-top: 100px; /* Adjust based on navbar height */
+}
+
+/* 3. Ensure sections don't peek under navbar */
+.hero {
+  margin-top: -100px; /* Pull hero up to fill the gap */
+  padding-top: 100px;
+}
+
+.projects,
+.journey,
+.studio,
+.featured,
+.contact {
+  padding-top: 120px !important; /* Extra space so content never shows under navbar */
+}
+
+/* ==========================================
+   FIX: PROJECT SLIDER STYLES
+   ========================================== */
+
+.projectSlider {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  gap: 24px;
+  padding: 20px 0 40px 0; /* Top/Right/Bottom/Left padding */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  
+  /* Hide scrollbar for cleaner look (optional) */
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink) transparent;
+}
+
+/* Custom scrollbar for webkit browsers */
+.projectSlider::-webkit-scrollbar {
+  height: 6px;
+}
+.projectSlider::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border-radius: 10px;
+}
+
+/* Force cards to be a fixed width in the slider */
+.sliderCard {
+  flex: 0 0 320px; /* Fixed width: 320px */
+  scroll-snap-align: start;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure the preview text is centered in the colored box */
+.previewText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}

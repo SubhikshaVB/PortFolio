@@ -21,11 +21,12 @@ export default function InkSplash() {
         duration: 0.8,
       }}
     >
-      <div className="paint yellow"></div>
-      <div className="paint orange"></div>
-      <div className="paint pink"></div>
-      <div className="paint purple"></div>
-      <div className="paint blue"></div>
+      {/* Forced clean, vibrant colors */}
+      <div className="paint yellow" style={{ backgroundColor: '#FDE047' }}></div>
+      <div className="paint orange" style={{ backgroundColor: '#FB923C' }}></div>
+      <div className="paint pink" style={{ backgroundColor: '#F472B6' }}></div>
+      <div className="paint purple" style={{ backgroundColor: '#C084FC' }}></div>
+      <div className="paint blue" style={{ backgroundColor: '#60A5FA' }}></div>
 
       <span className="drop d1"></span>
       <span className="drop d2"></span>
